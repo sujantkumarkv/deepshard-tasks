@@ -16,3 +16,11 @@ I may write something wrong (I dont know what i may think/write about haha), and
 - found the directory with blobs, some are actually text files and the ones with longer blob name can't be opened (most prolly weights); also couldn't find the tokenizer.
 ![model weights blob](https://github.com/sujantkumarkv/llama-inference/assets/73742938/2fdc3c68-cc39-4f09-baf4-6bae2297dac2)
 - will download weights, make docker image & proceed.
+
+### log#3
+- okay i'm back after atleast 48hours gap(had some work) and now spent hella lot of time in reading almost all .sh & .py scripts & trying to write my script (build.sh & run.sh was already good lol), and setting up docker container with the required libraries.
+- also added packages to `PYTHONPATH` in `.bashrc` when i first tried to run packages directly (no docker approach)
+  ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/ccad2587-52d8-40e8-b379-c7ca6b3122fe)
+- made the image `llama-inference-v1` (took 30mins) and spun it up & made `llama-inference` for the task inside `jetson-containers/data` since `data/` is mounted in the container according to the script.
+  ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/38c687ea-956d-4c43-bd5b-c90e344fd8ba)
+- also read flash-decoding.
