@@ -26,6 +26,9 @@ I may write something wrong (I dont know what i may think/write about haha), and
 - also read flash-decoding.
 
 ### log#4
+- spent lotta time to get a notebook running locally connected to container; not able to use the IP & password mentioned to connect, 
+  ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/9befdab8-03c7-4e7b-aff4-759438940504)
+- tried sshing  `ssh -L 8888:localhost:8888 truffle@192.168.1.248`, then gpt4 suggested to route locally (somehow) with `ssh -p 2212 -N -f -L localhost:8888:localhost:8888 truffle@172.90.224.13` but it didn't work (need help if possible to connect to notebook)
 - downloaded the model weights inside `llama-inference/model/llama2-7b-chat-hf`
 - wrote script to with most vanilla approach in `llama-inference/speed.py` and ~13 tokens/s.
   ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e63fa497-4530-44b5-93dd-a01949766169)
