@@ -30,5 +30,18 @@ I may write something wrong (I dont know what i may think/write about haha), and
   ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/9befdab8-03c7-4e7b-aff4-759438940504)
 - tried sshing  `ssh -L 8888:localhost:8888 truffle@192.168.1.248`, then gpt4 suggested to route locally (somehow) with `ssh -p 2212 -N -f -L localhost:8888:localhost:8888 truffle@172.90.224.13` but it didn't work (need help if possible to connect to notebook)
 - downloaded the model weights inside `llama-inference/model/llama2-7b-chat-hf`
-- wrote script to with most vanilla approach in `llama-inference/speed.py` and ~13 tokens/s.
-  ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e63fa497-4530-44b5-93dd-a01949766169)
+
+
+### log#5
+- wrote script to with most vanilla approach in `llama-inference/speed.py` and ~6 tokens/s (sometimes 5.9, 6.2 and so on)
+ ![Screenshot 2023-12-25 at 7 26 16 AM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/683faa5a-4d13-4ede-9feb-643ed1f65263)
+
+_note: i made mistake here & calculated wrong. also, using only cpu, it takes looong time to run (not feasible)_
+
+- also read this [blog](https://vgel.me/posts/faster-inference/). Multi-query attention is already baked in llama arch, i was under assumption we can tweak these for inference (earlier had idea to use GQA or Group Query attention, but we can't)
+  
+
+
+
+
+
