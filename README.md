@@ -2,7 +2,7 @@
 task to optimize for tokens/sec inferencing for llama.
 
 I'll log my approach + progress here as in steps on how to go about it in the README. I think this'll also serve to see how i do things and how can I improve it based on feedback.
-I may write something wrong (I dont know what i may think/write about haha), and may correct on it in the later commits.
+I may write something wrong, and may correct on it in the latter logs.
 
 ### log#1
 - Based on what I know, I can do inference with many libraries: vLLM, hf's TGI, llama.cpp, raw pytorch, fastgpt etc..
@@ -54,12 +54,22 @@ _note: i made mistake here & calculated wrong. also, using only cpu, it takes lo
 - The doc also suggested to download `ctransformers[cuda]` which prompts to install `nvidia-pyindex` and `nvidia-cublas-cu12`. The former worked but the later gave the following error:
   ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/298582af-9959-4b7a-8daf-8d89fc16ab04)
 
-- I then tried to use `torch.compile` (spins custom kernels to boost inference) for the first approach which gave ~6 tokens/s, but triton was missing but `pip install triton` didn't work (idk) and then i tried to build from source like so from its docs:
+- I then tried to use `torch.compile` (spins custom kernels to boost inference) for the first approach which gave ~6 tokens/s, but triton was missing but `pip install triton` didn't work (idk)
+![Screenshot 2023-12-26 at 6 49 11 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/4d785650-1c34-4671-a631-07252884a026)
+
+and then i tried to build from source like so from its docs:
 ```
 git clone https://github.com/openai/triton.git; cd triton;
 pip install ninja cmake wheel; # build-time dependencies
 pip install -e python
 ```
 but it gave errors for the last line and build fails giving the reason for failure in a `subprocess` and *not able to build wheel files*.
+![Screenshot 2023-12-26 at 6 49 55 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e801ea51-1c63-4db0-875c-0ec537cbda55)
+
+
+
+
+
+
   
 
