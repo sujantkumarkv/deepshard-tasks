@@ -41,7 +41,25 @@ _note: i made mistake here & calculated wrong. also, using only cpu, it takes lo
 - also read this [blog](https://vgel.me/posts/faster-inference/). Multi-query attention is already baked in llama arch, i was under assumption we can tweak these for inference (earlier had idea to use GQA or Group Query attention, but we can't)
   
 
+### log#6
+- okay so i'm getting a lott of those nasty system errors while getting installing/setting up on all methods i'm trying.
+- I cloned & build `llama.cpp` and something is really wrong here on the lower cuda & arch level because the original unquantized model showed OOM error, so i downloaded `Q8_0`, `Q6_K`, `Q4_K_M` & even `Q4_0` gguf files but it still gives error.
+  
+  ![Screenshot 2023-12-26 at 3 56 23 AM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e28f8c01-3e4d-4207-9b9c-2c04e481637d)
+  ![Screenshot 2023-12-26 at 3 57 09 AM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/be321831-675d-41f4-89be-d5a684bb57ca)
 
+- I moved on to another way as i remember @abacaj's tweet that `ctransformers` (python bindings using GGML library in C/C++) works great; i pip install it but it gives error about `libctransformers.so`. I then found the file, it exists and made it executable but it doesn't work. 
+  ![Screenshot 2023-12-26 at 7 05 25 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/dc563256-2cb6-4c27-aa00-7031ab5dca3a)
+  
+- The doc also suggested to download `ctransformers[cuda]` which prompts to install `nvidia-pyindex` and `nvidia-cublas-cu12`. The former worked but the later gave the following error:
+  ![image](https://github.com/sujantkumarkv/llama-inference/assets/73742938/298582af-9959-4b7a-8daf-8d89fc16ab04)
 
-
+- I then tried to use `torch.compile` (spins custom kernels to boost inference) for the first approach which gave ~6 tokens/s, but triton was missing but `pip install triton` didn't work (idk) and then i tried to build from source like so from its docs:
+```
+git clone https://github.com/openai/triton.git; cd triton;
+pip install ninja cmake wheel; # build-time dependencies
+pip install -e python
+```
+but it gave errors for the last line and build fails giving the reason for failure in a `subprocess` and *not able to build wheel files*.
+  
 
