@@ -57,13 +57,7 @@ _note: i made mistake here & calculated wrong. also, using only cpu, it takes lo
 - I then tried to use `torch.compile` (spins custom kernels to boost inference) for the first approach which gave ~6 tokens/s, but triton was missing but `pip install triton` didn't work (idk)
 ![Screenshot 2023-12-26 at 6 49 11 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/4d785650-1c34-4671-a631-07252884a026)
 
-and then i tried to build from source like so from its docs:
-```
-git clone https://github.com/openai/triton.git; cd triton;
-pip install ninja cmake wheel; # build-time dependencies
-pip install -e python
-```
-but it gave errors for the last line and build fails giving the reason for failure in a `subprocess` and *not able to build wheel files*.
+and then i tried to build from source like so from its docs but it gave errors, and the build fails giving the reason for failure in a `subprocess` and *not able to build wheel files*.
 ![Screenshot 2023-12-26 at 6 49 55 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e801ea51-1c63-4db0-875c-0ec537cbda55)
 
 
