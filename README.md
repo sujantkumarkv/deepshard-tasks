@@ -5,7 +5,7 @@ I'll log my approach + progress here as in steps on how to go about it in the RE
 I may write something wrong, and may correct on it in the latter logs.
 
 ### log#1
-- Based on what I know, I can do inference with many libraries: vLLM, hf's TGI, llama.cpp, raw pytorch, fastgpt etc..
+- Based on what I know, I can do inference with many libraries: vLLM, TGI, llama.cpp, gpt-fast etc..
 - one immediate thing to optimise on how these libraries decode: I remember lots of papers (eg. medusa decoding etc) which can optimize inference.
 - so I'll try these libraries mentioned & log -> then, read & in-depth understand their inferencing as to what differentiates them if I can improve (eg. what doecoding they use?)
 - currently, i'm trying to read all the contents of the device i got access via ssh (lots of container options, need to see if I need to instantiate my own)
@@ -48,7 +48,7 @@ _note: i made mistake here & calculated wrong. also, using only cpu, it takes lo
   ![Screenshot 2023-12-26 at 3 56 23 AM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e28f8c01-3e4d-4207-9b9c-2c04e481637d)
   ![Screenshot 2023-12-26 at 3 57 09 AM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/be321831-675d-41f4-89be-d5a684bb57ca)
 
-- I moved on to another way as i remember @abacaj's tweet that `ctransformers` (python bindings using GGML library in C/C++) works great; i pip install it but it gives error about `libctransformers.so`. I then found the file, it exists and made it executable but it doesn't work. 
+- I moved on to another way as i remember a tweet that `ctransformers` (python bindings using GGML library in C/C++) works great; i pip install it but it gives error about `libctransformers.so`. I then found the file, it exists and made it executable but it doesn't work. 
   ![Screenshot 2023-12-26 at 7 05 25 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/dc563256-2cb6-4c27-aa00-7031ab5dca3a)
   
 - The doc also suggested to download `ctransformers[cuda]` which prompts to install `nvidia-pyindex` and `nvidia-cublas-cu12`. The former worked but the later gave the following error:
@@ -67,8 +67,24 @@ but it gave errors for the last line and build fails giving the reason for failu
 ![Screenshot 2023-12-26 at 6 49 55 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e801ea51-1c63-4db0-875c-0ec537cbda55)
 
 
+### log#7
+- I tried vLLM, again installing via pip or building from source gave some cuda related error (*it works on colab though, also this may not be worth now bcz it doesn't support quantization properly, only AWQ as of now (those are optimized for 4 bits mostly)*)
+  *(note: I was running this inside the container i made & launched which contaied pytorch, python, cuda, llama.cpp, transformers)*
+![Screenshot 2023-12-27 at 8 33 43 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/07cae686-901b-48df-9b4e-baee58c71a27)
+
+- fast-gpt is raw pytorch implementation, read [this blog](https://pytorch.org/blog/accelerating-generative-ai-2/) on it. It uses various methods like `torch.compile` (which i tried earlier), `int8 quantization` and static kv-caching. Will try this again but its not a library, so need to dissect its files to suit my needs.
+
+- I finally tried going the simple *jetson container tutorials* by using `text-generation-webui` image, loaded `Q8_0.gguf` model with `llama.cpp` and **finally this worked** 😊 *(so this tells about some low-level error i need to fix bcz this worked)*
+so I get barely ~3.5 tokens/s.
+  
+![Screenshot 2023-12-27 at 7 56 31 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/40123cd8-c535-4c9e-ace0-be5380bcc60b)
+
+I read on `r/localLlama` about optimizing this and probably the `-t N` parameter in `llama.cpp` is best equal to the number of vCPUs (eg. it was 7 for him). I tried finding it for our device (help me if you have detailed specs)
+
+- I also found about `ctranslate2`, so will try that now. Also `fast-gpt` is most exciting bcz its raw just raw pytorch (will need to look at its code properly, so later)
 
 
+  
 
 
   
