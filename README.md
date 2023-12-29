@@ -75,7 +75,17 @@ so I get barely ~3.5 tokens/s.
 
 I read on `r/localLlama` about optimizing this and probably the `-t N` parameter in `llama.cpp` is best equal to the number of vCPUs (eg. it was 7 for him). I tried finding it for our device (help me if you have detailed specs)
 
-- I also found about `ctranslate2`, so will try that now. Also `fast-gpt` is most exciting bcz its raw just raw pytorch (will need to look at its code properly, so later)
+### log#8
+- I tried running `llama.cpp` & `mlc` from the `dustynv/` containers directly and this works without errors. I get `18 tokens/s` and `46 tokens/s` on `llama.cpp` and `mlc` respectively.
+
+  ![Screenshot 2023-12-29 at 7 25 18 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/cbc92554-1077-4333-80f3-6c8336abc772)
+
+  ![Screenshot 2023-12-28 at 7 35 20 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e5814518-f70c-4023-82ba-362fc341989c)
+
+- Also, the `text-generation-webui` also ran llama.cpp with `Q8_0` 8bit quantization, but it's much slower than this time running from the container: `3.5 vs 18 tokens/s`. another point is `mlc` requires to quantize to a certain format with the command: `--quantization q4f16_ft` which I suppose is `f16` or `q4`?!!! need to look more into this.
+
+
+
 
 
   
