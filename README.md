@@ -84,9 +84,10 @@ I read on `r/localLlama` about optimizing this and probably the `-t N` parameter
 
 - Also, the `text-generation-webui` also ran llama.cpp with `Q8_0` 8bit quantization, but it's much slower than this time running from the container: `3.5 vs 18 tokens/s`. another point is `mlc` requires to quantize to a certain format with the command: `--quantization q4f16_ft` which I suppose is `f16` or `q4`?!!! need to look more into this.
 
-
-
-
+### log#9
+- I tried another library `ctranslate2`, it installs with pip (unlike previous errors) but even after installing, it throws a `Module not found error`. For ctranslate2, it needs to be converted to a certain format & that works but the chat file or `import ctranslate2` gives the same module error.
+![Screenshot 2023-12-30 at 8 14 22 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/1b2a9f99-2048-44e5-bac2-b49ad976137d)
+![Screenshot 2023-12-30 at 8 07 24 PM](https://github.com/sujantkumarkv/llama-inference/assets/73742938/e00c2c50-2a98-4482-b990-6379b16e6ceb)
 
   
 
