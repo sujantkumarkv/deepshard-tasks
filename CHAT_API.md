@@ -35,3 +35,24 @@ A successful implementation will be judge upon the following criteria:
 3. Efficiency: Is your code performant?
 ```
 i'll try logging my problems & progress here.
+
+### log#1
+
+- spent time in reading code on to build APIs, compatible with the architecture, server features, good with models etc.
+- read about ASGI, server configs, flask, fastAPI, caching logic, then ray which was a great fit (even alibaba, tiktok uses it in production)
+- didn't set `--volume` for the docker container `mlc:r36.2.0-mlc`, and lost some changes i did... i set up `chat_api`, changed the `jetson-containers/run.sh` to include it during launch. 
+
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/26283316-46b6-4a9e-b444-f413186c2a64)
+
+- wrote `server.py` in the `/opt/chat_api` directory for testing server, **it runs** but gave errors in not running in the background for persistent requests & responses as i tried curl in different terminal session.
+  
+
+
+
+
+
+
+
+
+
+
