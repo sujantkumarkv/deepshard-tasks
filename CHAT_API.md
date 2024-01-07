@@ -46,11 +46,22 @@ i'll try logging my problems & progress here.
 
 - wrote `server.py` in the `/opt/chat_api` directory for testing server, **it runs** but gave errors in not running in the background for persistent requests & responses as i tried curl in different terminal session.
   
+### log#2
 
+- the plan is to have a script which would start an API serving requests in a chat format.
+- I'm running everything inside the container and i was facing issues in getting `mlc_chat` (python api) to work, `mlc_chat_cli` worked though. I then try to build `mlc-llm` from scratch, but i got errors where it wasn't able to find something called `tvm` but it was present in `3rdparty/tvm` in the `mlc-llm` so i exported for it to able to find it `export PYTHONPATH=/opt/mlc-llm/3rdparty/tvm/python:$PYTHONPATH` and this worked.
+- but then it wasn't able to find some files (as shown), I tried copying it to destination directories, but it doesn't work.
+  
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/610ccf28-0ee3-4354-8543-acfbe703cdfb)
 
+- probably the problem was the virtual env `venv` i was using inside the container (container is already isolated). when using the image which had mlc installed, `mlc_chat` worked.
+- Then, the issue was with the mistral's format since mlc requires a certain format of model being compiled for it to run. [Here's the page](https://llm.mlc.ai/docs/compilation/compile_models.html) on compiling the models. I did all the steps and it still threw error as shown:
 
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/598ab4d7-3de7-4df6-b1bb-9107e0b774cc)
+  
+- On further reading on it, **_the issue was that the compiled model binary libs (in the form of `xyz.so` `abc.tar` `pqr.dll`) for different platform, the Mistral one was only compiled for `x86` architecture and not for `aarch64` as our jetson device_**, so I downloaded the `abcxyz-MLC` quantized file and then compiled it to get the `abcxyz-cuda.so` file. `mlc_chat` then worked with an approx `27 tokens/s`
 
-
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/f4226c10-2f82-49b1-99ad-ddfe3d142508)
 
 
 
