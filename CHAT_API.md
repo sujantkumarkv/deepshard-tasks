@@ -63,6 +63,21 @@ i'll try logging my problems & progress here.
 
 ![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/f4226c10-2f82-49b1-99ad-ddfe3d142508)
 
+### log#3
+
+- Wasted a lot of time in using ray's REST server, it gave slow initialization errors, then saw I could use `mlc_chat.rest`'s REST server
+- running the `mlc_chat.rest` server, and POST requests, it works :)
+
+  <img width="733" alt="image" src="https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/8f47b978-a39f-4a90-9fae-3e3c57d6ed82">
+
+- then, compiled & made whisper.cpp from source. The issue was to get *just* the text output as it outputs system and many other details to console.
+- - The option to save it to a text file also exists with `--output-txt` flag, so i tried to change the `whisper.cpp` c++ code itself to supress output and give text and stats, that was a wasted effort.
+- I tried `suprocess` for python scipt and the hack I used was to not `capture_output` which sets the `stdout` and `stderr` from `subprocess.run` to `PIPE`, read [here](https://docs.python.org/3/library/subprocess.html#subprocess.run) and the parse the console output `stdout.output.decode('utf-8')` and then extract the text out of there, it works.
+  
+![Screenshot 2024-01-08 at 12 44 10 PM](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/8cf74bdf-ea3d-4856-950c-ff5f6ca3563e)
+
+- then I implemented two options, Text2Text and Voice2Text in a script (code optimizations later)
+
 
 
 
