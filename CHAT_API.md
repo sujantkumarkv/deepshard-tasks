@@ -86,6 +86,10 @@ i'll try logging my problems & progress here.
 - i started with the thought to replicate the entire build environement locally first in the host machine (jetson orin) and then at the end dockerize it with a custom Dockerfile by combining all the steps from all those individual dockerfiles (pytorch, python etc), but its not just a `pip install transformers` for libraries due to arch difference & there's a lot of steps in their respective dockerfiles in `jetson-containers/packages/*` and its a pain, so i'm going with (as of now) to use a built image, add custom libraries on top with a new Dockerfile, and have my chatapi's code in the image, i guess i can iterate faster as i'll mount it with `--volume`.
 - There's a lot of ubuntu/docker nuances i haven't worked with, and just saw how the BASE_IMAGE used in the official Dockerfile for libs in `jetson-containers/packages/*` worked in `jetson-containers/jetson_containers/container.py` and need to take all such nuances into account to get it started.
 
+### log#5
 
-
+- its needed to build stuff almost from scratch again, as to write the new API including whisper, TTS etc.
+- built a new image (`chatapi:v0`) on existing `mlc:r36.2.0` with `fastapi` & `uvicorn` with a new Dockerfile.
+- ran & tested it with "hello world", works :)
+  ![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/2bf6146a-7208-4cd8-b54b-74759061c82e)
 
