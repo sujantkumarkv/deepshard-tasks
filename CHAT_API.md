@@ -97,4 +97,14 @@ i'll try logging my problems & progress here.
 
   ![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/4643d0a1-e9e4-44d6-8bc9-7d6404fbe865)
 
+### log#6
+
+- the issue i'm facing with is to make realtime whisper.cpp work. i'm trying to use a `stream` (more, [here](https://github.com/ggerganov/whisper.cpp/tree/master/examples/stream)) file, the file starts, but doesn't pick up audio.
+- Now, there are many issues possible (one thing i'm confused is if i would need code to take audio input from my macbook -> send it to jetson device via ssh or something? OR since i'm SSHed into the device, my audio input if picked up, will be directly captured by the `stream` file.)
+- diving into `alsa` `pyaudio` `sounddevice` `wave` and [nvidia help forum](https://forums.developer.nvidia.com/search?q=pyaudio), some leads i found are to `arecord` run in my mac along with `stream` in the container OR run arecord in the container, idk!!!
+- one doubt i had is regarding how to write Dockerfile correctly to ensure everything is installed properly & the container READS all the tools & dependencies properly so as to not have any error which doesn't show up but exists in the background. gpt4 helped: "Python packages should be installed in the Python's global site-packages directory (which is done automatically when you use `pip install`), it's typically something like `/usr/local/lib/python3.x/site-packages` for Python 3.x & similar to Python packages, system packages installed with `apt-get install` are available system-wide and their installation is not affected by the `WORKDIR` in dockerfile and your application code should be placed in a directory of your choice (like `/chatapi`)"
+
+
+
+
 
