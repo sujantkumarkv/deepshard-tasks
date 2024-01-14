@@ -104,6 +104,80 @@ i'll try logging my problems & progress here.
 - diving into `alsa` `pyaudio` `sounddevice` `wave` and [nvidia help forum](https://forums.developer.nvidia.com/search?q=pyaudio), some leads i found are to `arecord` run in my mac along with `stream` in the container OR run arecord in the container, idk!!!
 - one doubt i had is regarding how to write Dockerfile correctly to ensure everything is installed properly & the container READS all the tools & dependencies properly so as to not have any error which doesn't show up but exists in the background. gpt4 helped: "Python packages should be installed in the Python's global site-packages directory (which is done automatically when you use `pip install`), it's typically something like `/usr/local/lib/python3.x/site-packages` for Python 3.x & similar to Python packages, system packages installed with `apt-get install` are available system-wide and their installation is not affected by the `WORKDIR` in dockerfile and your application code should be placed in a directory of your choice (like `/chatapi`)"
 
+### log#7
+
+- one major issue i'm confused about that audio capture by jetson's microphone isn't available physically and its required afaik... i came to know & read extensively on `arecord`, `sox`
+ and `socat` tools (i installed it on my macbook & jetson), nvidia forum helped: [here](https://forums.developer.nvidia.com/t/how-to-install-pyaudio-l4t-32-2-3/115152) and [here](https://forums.developer.nvidia.com/t/how-to-name-the-sound-hw-device-usb-microphone-l4t-32-2-3/115142/3).
+- i can use my macbook's microphone but it then needs to be routed somehow to the jetson's code. now, i don't know how the `stream` file (binary) works, by reading the makefile in whisper.cpp, its probably using `examples/stream/stream.cpp` and it uses very diff libs. I tried `arecord` on macbook, it works with my microphone :), on jetson it doesn't pick up my voice directly (as expected, so i definitely need to route audio somehow)
+  
+```bash
+truffle@ubuntu:~$ arecord -D hw:1,0 -c 1 -r 16000 -f S16_LE -d 5 test2.wav
+Recording WAVE 'test2.wav' : Signed 16 bit Little Endian, Rate 16000 Hz, Mono
+arecord: pcm_read:2221: read error: Input/output error
+```
+- this is the `arecord -l` output, so there's only one card.
+```bash
+truffle@ubuntu:~$ arecord -l
+**** List of CAPTURE Hardware Devices ****
+card 1: APE [NVIDIA Jetson AGX Orin APE], device 0: tegra-dlink-0 XBAR-ADMAIF1-0 []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: APE [NVIDIA Jetson AGX Orin APE], device 1: tegra-dlink-1 XBAR-ADMAIF2-1 []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+
+... continues with change in device 'N' from 0-19
+
+card 1: APE [NVIDIA Jetson AGX Orin APE], device 19: tegra-dlink-19 XBAR-ADMAIF20-19 []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
+and for `arecord -D hw:1, 0 --dump-hw-params`
+```bash
+Warning: Some sources (like microphones) may produce inaudiable results
+         with 8-bit sampling. Use '-f' argument to increase resolution
+         e.g. '-f S16_LE'.
+Recording WAVE 'stdin' : Unsigned 8 bit, Rate 8000 Hz, Mono
+HW Params of device "hw:1,0":
+--------------------
+ACCESS:  MMAP_INTERLEAVED RW_INTERLEAVED
+FORMAT:  S8 S16_LE S24_LE S32_LE
+SUBFORMAT:  STD
+SAMPLE_BITS: [8 32]
+FRAME_BITS: [8 512]
+CHANNELS: [1 16]
+RATE: (0 4294967295]
+PERIOD_TIME: (0 4294967295]
+PERIOD_SIZE: [16 4096]
+PERIOD_BYTES: [1024 4096]
+PERIODS: [2 8]
+BUFFER_TIME: (0 4294967295]
+BUFFER_SIZE: [32 32768]
+BUFFER_BYTES: [1024 32768]
+TICK_TIME: ALL
+--------------------
+arecord: set_params:1352: Sample format non available
+Available formats:
+- S8
+- S16_LE
+- S24_LE
+- S32_LE
+```
+
+- i then used the commands shown: the 1st one starts the receiving end on the jetson (tried in both host & running container) to receive audio with TCP, and 2nd one runs on my macbook but it always abruptly stops, no audio is transferred & i get a `00:00`s audio.
+
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/dcf19d09-1491-4754-a1ae-8049aa4e13d6)
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/198bfac2-550a-4baf-a86b-77357bb3d7b4)
+
+- wrote the code from [here](https://forums.developer.nvidia.com/t/how-to-install-pyaudio-l4t-32-2-3/115152/3) and tried running it in container but it gives errors (which are warnings from the ALSA library, which is used by PyAudio to interact with the sound card. These messages indicate that ALSA is trying to open various PCM (Pulse-Code Modulation) devices that don't exist but i have used `--device /dev/snd -v /dev/snd:/dev/snd:ro --device /dev/bus/usb -v /dev/bus/usb:/dev/bus/usb:ro` during my `docker run` to give access but doesn't work huhh) and not output .wav isn't saved either.
+
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/52640747-38b8-4cab-a465-2a48ccc282f3)
+
+
+
+
 
 
 
