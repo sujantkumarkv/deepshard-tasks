@@ -176,8 +176,12 @@ Available formats:
 ![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/52640747-38b8-4cab-a465-2a48ccc282f3)
 
 
+### log#8
 
-
+- so I researched more & decided to use my own macbook's microphone to speak, send it to device and then make this work, the trick is to automate this as much as i can, bcz pyaudio (based on portaudio) won't cut it.
+- wrote a bash script that can run on my local mac to record & then send audio over using `scp` (didn't work before as i got permissions error to write file, so I added my user to root `sudo usermod -a -G root truffle` and added writing permissions `sudo chmod g+w chat_api/audio/`.
+- then rewrote the functions & etc on jetson to parse it & then use `mlc_chat` with mistral to make it work.
+- organised code, wrote docstrings, removed the hardcodedness with `config.json`, tested it & it works, just need to automate the text-to-speech now.
 
 
 
