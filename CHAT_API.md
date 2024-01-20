@@ -186,7 +186,8 @@ Available formats:
 - and then send audio over using `scp` (didn't work before as i got permissions error to write file, so I added my user to root `sudo usermod -a -G root truffle` and added writing permissions `sudo chmod g+w chat_api/audio/`.
   
 - then rewrote the functions & etc on jetson to parse it & then use `mlc_chat` with mistral to make it work.
-  ![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/e050c515-b9fd-450c-b521-5aac6a720bbf)
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/bbd66e50-ed84-4e5d-a330-603abb356db3)
+
 
 - organised code, wrote docstrings, removed the hardcodedness with `config.json`, tested it & it works.
 
