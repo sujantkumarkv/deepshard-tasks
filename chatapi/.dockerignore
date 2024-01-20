@@ -1,0 +1,13 @@
+__pycache__/
+.git/
+.env
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.bak
+*.tmp
+.venv/
+env/
+venv/
+ENV/

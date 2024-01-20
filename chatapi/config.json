@@ -1,0 +1,17 @@
+{
+    "root": {
+        "homepath": "/home/truffle"
+    },
+    "transcribe": {
+        "cwd": "/opt/whisper.cpp",
+        "audio_file_name": "v2t",
+        "model": "ggml-base.en.bin"
+    },
+    "chat": {
+        "model": "/chatapi/dist/Mistral-7B-Instruct-v0.2-q4f16_1-MLC",
+        "model_lib_path": "/chatapi/dist/libs/Mistral-7B-Instruct-v0.2-q4f16_1-cuda.so"
+    },
+    "tokenizer": {
+        "model_path": "Mistral-7B-Instruct-v0.2"
+    }
+}
