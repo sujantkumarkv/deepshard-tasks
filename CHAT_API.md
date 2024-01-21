@@ -181,15 +181,22 @@ Available formats:
 - so I researched more & decided to use my own macbook's microphone to speak, send it to device and then make this work, the trick is to automate this as much as i can, bcz pyaudio (based on portaudio) won't cut it.
 - wrote a bash script that can run on my local mac to record, it works like so:
   
-![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/a1dbe109-c800-4752-93f8-4a196631981a)
-
 - and then send audio over using `scp` (didn't work before as i got permissions error to write file, so I added my user to root `sudo usermod -a -G root truffle` and added writing permissions `sudo chmod g+w chat_api/audio/`.
   
 - then rewrote the functions & etc on jetson to parse it & then use `mlc_chat` with mistral to make it work.
-![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/bbd66e50-ed84-4e5d-a330-603abb356db3)
-
 
 - organised code, wrote docstrings, removed the hardcodedness with `config.json`, tested it & it works.
+
+### log#9
+
+- the script on my mac works like so:
+
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/a1dbe109-c800-4752-93f8-4a196631981a)
+
+- and here's the container running API endpoint & voice2text chat working:
+![image](https://github.com/sujantkumarkv/deepshard-tasks/assets/73742938/bbd66e50-ed84-4e5d-a330-603abb356db3)
+
+- For TTS, coqui has a arch issue afaik (as i tried running a prebuilt official latest image, it says the `manifest` doesn't support arm64/linux), i went with `suno/bark` model but its horribly slow & takes (50+seconds for a 13s audio). i have the weights locally. so it runs, but its not fast/realtime so doesn't make sense anyways to use it for chat.
 
 
   
